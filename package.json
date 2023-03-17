@@ -1,0 +1,15 @@
+{
+  "name": "paizaskillcheck",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "1": "node main < case1.txt",
+    "2": "node main < case2.txt",
+    "3": "node main < case3.txt",
+    "test": "mocha test/",
+    "new": "cp main.template.js main.js && rm case1.txt && touch case1.txt && rm case2.txt && touch case2.txt && rm case3.txt && touch case3.txt && rm answer1.txt && touch answer1.txt && rm answer2.txt && touch answer2.txt && rm answer3.txt && touch answer3.txt"
+  },
+  "dependencies": {
+    "mocha": "^10.2.0"
+  }
+}
