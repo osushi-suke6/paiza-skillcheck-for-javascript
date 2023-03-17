@@ -6,12 +6,12 @@ paiza の問題をローカルで解くためのテンプレート。main.js に
 ```
 npm run new
 ```
-テンプレートである main.template.js で main.js を上書きし、入力例 case1~case3 および、出力例 answer1~answer3 を初期化する。主に問題を新たに解くときに使う
+テンプレートである main.template.js で main.js を上書きし、入力例 case1, ..., case3 および、出力例 answer1, ..., answer3 を初期化する。主に問題を新たに解くときに使う
 
 ```
 npm test
 ```
-case1~case3 を入力として main.js を実行し、出力が answer1~answer3 と等しいかテストする
+case1, ..., case3 を入力として main.js を実行し、出力が answer1, ..., answer3 と等しいかテストする
 
 ```
 npm run 1
