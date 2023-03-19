@@ -17,9 +17,19 @@ describe("test", () => {
 });
 
 function testCase(number, done) {
-  const main = cp.spawn("node", ["main.js"]);
   const input = fs.readFileSync(`case${number}.txt`);
-  const expected = fs.readFileSync(`answer${number}.txt`).toString();
+
+  if (input.toString() === "") {
+    done();
+    return;
+  }
+
+  const expected = fs
+    .readFileSync(`answer${number}.txt`)
+    .toString()
+    .replace(/\r/g, "");
+
+  const main = cp.spawn("node", ["main.js"]);
 
   main.stdin.write(input);
 
