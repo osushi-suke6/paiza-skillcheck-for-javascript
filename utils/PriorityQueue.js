@@ -3,7 +3,7 @@ class PriorityQueue {
     this.heap = [];
   }
 
-  push(item, priority) {
+  enqueue(item, priority) {
     const newNode = { item, priority };
     this.heap.push(newNode);
 
@@ -23,7 +23,7 @@ class PriorityQueue {
     }
   }
 
-  pop() {}
+  dequeue() {
 
   size() {}
 
