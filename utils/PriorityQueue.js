@@ -68,5 +68,7 @@ class PriorityQueue {
     return this.heap.length;
   }
 
-  top() {}
+  top() {
+    return this.heap[0];
+  }
 }
