@@ -8,12 +8,45 @@ class Dijkstra {
     this.width = maze[0].length;
     this.costs = this.createGrid(this.height, this.width, Infinity);
     this.searched = this.createGrid(this.height, this.width, false);
+    this.refs = this.createGrid(this.height, this.width, null);
+    this.way = null;
+
+    this.solve();
   }
 
-  calcMinCost() {
+  getMinCosts() {
+    return this.costs;
+  }
+
+  getMinCostToGoal() {
+    return this.costs[this.goal.i][this.goal.j];
+  }
+
+  getRefs() {
+    return this.refs;
+  }
+
+  getWay() {
+    if (this.way !== null) return this.way;
+
+    this.way = [this.goal];
+    let ref = this.refs[this.goal.i][this.goal.j];
+    while (ref !== null) {
+      ref = { i: ref.i, j: ref.j };
+      this.way.push(ref);
+      ref = this.refs[ref.i][ref.j];
+    }
+
+    this.way = this.way.reverse();
+
+    return this.way;
+  }
+
+  solve() {
     const maze = this.maze;
     const searched = this.searched;
     const costs = this.costs;
+    const refs = this.refs;
     const start = this.start;
     const goal = this.goal;
 
@@ -32,6 +65,7 @@ class Dijkstra {
         const adjCost = currentCost + maze[adj.i][adj.j];
         if (adjCost >= costs[adj.i][adj.j]) return;
 
+        adj.ref = currentPlace;
         queue.enqueue(adj, -1 * (currentCost + maze[adj.i][adj.j]));
       });
 
@@ -51,13 +85,11 @@ class Dijkstra {
 
       costs[closestPlace.i][closestPlace.j] = closetPlaceCost;
       searched[closestPlace.i][closestPlace.j] = true;
+      refs[closestPlace.i][closestPlace.j] = closestPlace.ref;
       currentPlace = closestPlace;
 
       isGoal = this.isSamePlace(currentPlace, goal);
     }
-
-    const minCost = this.costs[goal.i][goal.j];
-    return minCost;
   }
 
   createGrid(height, width, value) {
