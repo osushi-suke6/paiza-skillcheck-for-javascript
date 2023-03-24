@@ -36,7 +36,7 @@ class PriorityQueue {
 
     let currentChildNodeIdx =
       rightIdx < this.size() &&
-      this.heap[rightIdx].priority > this.heap[leftIdx]
+      this.heap[rightIdx].priority > this.heap[leftIdx].priority
         ? rightIdx
         : leftIdx;
 
@@ -56,7 +56,7 @@ class PriorityQueue {
 
       currentChildNodeIdx =
         rightIdx < this.size() &&
-        this.heap[rightIdx].priority > this.heap[leftIdx]
+        this.heap[rightIdx].priority > this.heap[leftIdx].priority
           ? rightIdx
           : leftIdx;
     }
