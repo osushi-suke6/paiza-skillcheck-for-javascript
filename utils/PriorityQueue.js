@@ -24,8 +24,49 @@ class PriorityQueue {
   }
 
   dequeue() {
+    const root = this.heap[0];
+    const lastNode = this.heap.pop();
+    this.heap[0] = lastNode;
 
-  size() {}
+    if (this.heap.length < 3) return root;
+
+    let currentNodeIdx = 0;
+    let leftIdx = 2 * currentNodeIdx + 1;
+    let rightIdx = 2 * currentNodeIdx + 2;
+
+    let currentChildNodeIdx =
+      rightIdx < this.size() &&
+      this.heap[rightIdx].priority > this.heap[leftIdx]
+        ? rightIdx
+        : leftIdx;
+
+    while (
+      currentChildNodeIdx < this.size() &&
+      this.heap[currentNodeIdx].priority <=
+        this.heap[currentChildNodeIdx].priority
+    ) {
+      const currentNode = this.heap[currentNodeIdx];
+      const currentChildNode = this.heap[currentChildNodeIdx];
+      this.heap[currentChildNodeIdx] = currentNode;
+      this.heap[currentNodeIdx] = currentChildNode;
+
+      currentNodeIdx = currentChildNodeIdx;
+      leftIdx = 2 * currentNodeIdx + 1;
+      rightIdx = 2 * currentNodeIdx + 2;
+
+      currentChildNodeIdx =
+        rightIdx < this.size() &&
+        this.heap[rightIdx].priority > this.heap[leftIdx]
+          ? rightIdx
+          : leftIdx;
+    }
+
+    return root;
+  }
+
+  size() {
+    return this.heap.length;
+  }
 
   top() {}
 }
