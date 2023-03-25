@@ -6,94 +6,89 @@ class Dijkstra {
 
     this.height = maze.length;
     this.width = maze[0].length;
-    this.costs = this.createGrid(this.height, this.width, Infinity);
-    this.searched = this.createGrid(this.height, this.width, false);
-    this.refs = this.createGrid(this.height, this.width, null);
+
+    this.minCostToGoal = null;
     this.way = null;
+
+    this.searchedMap = new Map();
+    this.searchedMapGoalKey = '';
+    this.unsearchedStates = new PriorityQueue();
 
     this.solve();
   }
 
-  getMinCosts() {
-    return this.costs;
-  }
-
   getMinCostToGoal() {
-    return this.costs[this.goal.i][this.goal.j];
-  }
-
-  getRefs() {
-    return this.refs;
+    return this.searchedMap.get(this.searchedMapGoalKey).cost;
   }
 
   getWay() {
     if (this.way !== null) return this.way;
 
-    this.way = [this.goal];
-    let ref = this.refs[this.goal.i][this.goal.j];
-    while (ref !== null) {
-      ref = { i: ref.i, j: ref.j };
-      this.way.push(ref);
-      ref = this.refs[ref.i][ref.j];
-    }
+    this.way = [];
+    const goal = this.searchedMap.get(this.searchedMapGoalKey);
+    this.way.push(goal.place);
 
-    this.way = this.way.reverse();
+    let ref = goal.ref;
+    while (ref !== null) {
+      this.way.push(ref);
+
+      const key = `${ref.i}_${ref.j}`;
+      ref = this.searchedMap.get(key)?.ref;
+    }
 
     return this.way;
   }
 
   solve() {
     const maze = this.maze;
-    const searched = this.searched;
-    const costs = this.costs;
-    const refs = this.refs;
     const start = this.start;
     const goal = this.goal;
 
-    searched[start.i][start.j] = true;
-    costs[start.i][start.j] = maze[start.i][start.j];
+    const searchedMap = this.searchedMap;
+    const unsearchedStates = this.unsearchedStates;
 
-    const queue = new PriorityQueue();
+    const initState = this.createState(start, null, maze[start.i][start.j]);
+    unsearchedStates.enqueue(initState, 0);
 
-    let currentPlace = this.start;
-    let isGoal = false;
-    while (!isGoal) {
-      const currentCost = costs[currentPlace.i][currentPlace.j];
-      const adjs = this.getUnsearchedAdjs(currentPlace);
+    while (unsearchedStates.size() > 0) {
+      const searched = unsearchedStates.dequeue().item;
 
+      const key = `${searched.place.i}_${searched.place.j}`;
+      searchedMap.set(key, searched);
+      this.searchedMapGoalKey = key;
+
+      if (this.isSamePlace(searched.place, goal)) return;
+
+      const adjs = this.getAdjs(searched.place);
       adjs.forEach((adj) => {
-        const adjCost = currentCost + maze[adj.i][adj.j];
-        if (adjCost >= costs[adj.i][adj.j]) return;
+        const adjCost = searched.cost + maze[adj.i][adj.j];
+        const state = this.createState(adj, searched.place, adjCost);
 
-        adj.ref = currentPlace;
-        queue.enqueue(adj, -1 * (currentCost + maze[adj.i][adj.j]));
+        const adjKey = `${adj.i}_${adj.j}`;
+        if (searchedMap.has(adjKey)) return;
+
+        unsearchedStates.enqueue(state, -1 * state.cost);
       });
-
-      let closestPlace = {};
-      let closetPlaceCost = 0;
-      let isFound = false;
-      while (!isFound) {
-        const dequeue = queue.dequeue();
-        closestPlace = dequeue.item;
-        closetPlaceCost = -1 * dequeue.priority;
-
-        const tmpI = closestPlace.i;
-        const tmpJ = closestPlace.j;
-
-        isFound = !searched[tmpI][tmpJ] && closetPlaceCost < costs[tmpI][tmpJ];
-      }
-
-      costs[closestPlace.i][closestPlace.j] = closetPlaceCost;
-      searched[closestPlace.i][closestPlace.j] = true;
-      refs[closestPlace.i][closestPlace.j] = closestPlace.ref;
-      currentPlace = closestPlace;
-
-      isGoal = this.isSamePlace(currentPlace, goal);
     }
   }
 
-  createGrid(height, width, value) {
-    return new Array(height).fill().map((_) => new Array(width).fill(value));
+  createState(place, ref, cost) {
+    return { place, ref, cost };
+  }
+
+  isSamePlace(a, b) {
+    return a.i === b.i && a.j === b.j;
+  }
+
+  getAdjs(place) {
+    const north = createPlace(place.i - 1, place.j);
+    const east = createPlace(place.i, place.j + 1);
+    const west = createPlace(place.i, place.j - 1);
+    const south = createPlace(place.i + 1, place.j);
+
+    const places = [east, south, north, west];
+
+    return places.filter((p) => this.isValidPlace(p));
   }
 
   isValidPlace(place) {
@@ -102,23 +97,6 @@ class Dijkstra {
       place.i < this.height &&
       0 <= place.j &&
       place.j < this.width
-    );
-  }
-
-  isSamePlace(a, b) {
-    return a.i === b.i && a.j === b.j;
-  }
-
-  getUnsearchedAdjs(place) {
-    const north = createPlace(place.i - 1, place.j);
-    const east = createPlace(place.i, place.j + 1);
-    const west = createPlace(place.i, place.j - 1);
-    const south = createPlace(place.i + 1, place.j);
-
-    const places = [east, south, north, west];
-
-    return places.filter(
-      (p) => this.isValidPlace(p) && !this.searched[p.i][p.j]
     );
   }
 }
