@@ -6,6 +6,8 @@
     "1": "ts-node ./src/main < case1.txt",
     "2": "ts-node ./src/main < case2.txt",
     "3": "ts-node ./src/main < case3.txt",
+    "build": "webpack",
+    "watch": "webpack -w",
     "test": "mocha test/",
     "new": "cp main.template.js main.js && rm case1.txt && touch case1.txt && rm case2.txt && touch case2.txt && rm case3.txt && touch case3.txt && rm answer1.txt && touch answer1.txt && rm answer2.txt && touch answer2.txt && rm answer3.txt && touch answer3.txt"
   },
@@ -13,7 +15,11 @@
     "mocha": "^10.2.0"
   },
   "devDependencies": {
+    "@types/webpack": "^5.28.0",
+    "ts-loader": "^9.4.2",
     "ts-node": "^10.9.1",
-    "typescript": "^5.0.2"
+    "typescript": "^5.0.2",
+    "webpack": "^5.76.3",
+    "webpack-cli": "^5.0.1"
   }
 }
