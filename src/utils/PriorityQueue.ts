@@ -1,11 +1,11 @@
-interface IPriorityQueue<T> {
+export interface IPriorityQueue<T> {
   enqueue: (element: IPriorityQueueElement<T>) => void;
   dequeue: () => IPriorityQueueElement<T> | null;
   size: () => number;
   top: () => IPriorityQueueElement<T> | null;
 }
 
-interface IPriorityQueueElement<T> {
+export interface IPriorityQueueElement<T> {
   item: T;
   priority: number;
 }
