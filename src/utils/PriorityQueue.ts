@@ -1,10 +1,20 @@
-class PriorityQueue {
-  constructor() {
-    this.heap = [];
-  }
+export interface IPriorityQueue<T> {
+  enqueue: (element: IPriorityQueueElement<T>) => void;
+  dequeue: () => IPriorityQueueElement<T> | null;
+  size: () => number;
+  top: () => IPriorityQueueElement<T> | null;
+}
 
-  enqueue(item, priority) {
-    const newNode = { item, priority };
+export interface IPriorityQueueElement<T> {
+  item: T;
+  priority: number;
+}
+
+export class PriorityQueue<T> implements IPriorityQueue<T> {
+  private heap: IPriorityQueueElement<T>[] = [];
+
+  enqueue(element: IPriorityQueueElement<T>) {
+    const newNode = element;
     this.heap.push(newNode);
 
     let currentNodeIdx = this.heap.length - 1;
@@ -26,8 +36,10 @@ class PriorityQueue {
   dequeue() {
     const root = this.heap[0];
     const lastNode = this.heap.pop();
-    this.heap[0] = lastNode;
 
+    if (!lastNode) return null;
+
+    this.heap[0] = lastNode;
     if (this.heap.length < 3) return root;
 
     let currentNodeIdx = 0;
@@ -69,6 +81,7 @@ class PriorityQueue {
   }
 
   top() {
-    return this.heap[0];
+    const top = this.heap[0] ?? null;
+    return top;
   }
 }
