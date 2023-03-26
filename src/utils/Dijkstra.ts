@@ -53,9 +53,9 @@ export class Dijkstra implements IDijkstra {
     const goalKey = `${this.goal.i}_${this.goal.j}`;
     this.minCostToGoal = this.searchedStates.get(goalKey)?.cost ?? null;
 
-    if (!this.minCostToGoal) {
+    if (this.minCostToGoal === null) {
       throw new Error(
-        `KeyNotFoundError: The key(${goalKey}) is not found in the Map(searchedStates)`
+        `KeyNotFoundError: The key(${goalKey}) is not found in the Map(searchedStates) ${this.minCostToGoal}`
       );
     }
 
