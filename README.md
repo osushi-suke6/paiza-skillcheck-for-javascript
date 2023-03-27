@@ -1,32 +1,33 @@
 # What's this?
-paiza の問題をローカルで解くためのテンプレート。
-`main.ts` に解答を入力し、ローカルで入力例に対して検証などができる。
-`utils` は問題を解くのに便利なコード集。
-提出の際は `npm run build` で `build/main.js` をまるまるコピペする。
+This is a template for solving Paiza exercises locally with TypeScript. Input your solutions in main.ts and test them against sample inputs on your local machine.
 
-# コマンド
+The utils directory contains useful code snippets or classes for solving exercises, which you can import. Webpack transpiles and bundles main.ts into main.js for submission.
+
+To submit your solution, run npm run build and copy and paste the resulting build/main.js.
+
+# How to use
+Write your code in `main.ts` and generate a JavaScript file `main.js` for submission. You can use the following commands to initialize `main.ts`, test your code against sample inputs, or build:
+## Commands
 ```
 npm run new
 ```
-テンプレートである main.template.ts で main.ts を上書きし、入力例 case1, ..., case3 および、出力例 answer1, ..., answer3 を初期化する。主に問題を新たに解くときに使う
-
-```
-npm test
-```
-case1, ..., case3 を入力として main.ts を実行し、出力が answer1, ..., answer3 と等しいかテストする
-
+Overwrites `main.ts` with the template file main.template.ts and initializes sample inputs (case1.txt, ..., case3.txt) and expected outputs (answer1.txt, ..., answer3.txt). Use this command mainly when starting to solve a new excersise.
 ```
 npm run 1
 ```
-case1.txt を入力として main.ts を実行する
+Runs main.ts with case1.txt as input.
 
 ```
 npm run 2
 ```
-case2.txt を入力として main.ts を実行する
+Runs main.ts with case2.txt as input.
 
 ```
 npm run 3
 ```
-case3.txt を入力として main.ts を実行する
+Runs main.ts with case3.txt as input.
 
+```
+npm test
+```
+Runs main.ts with sample inputs (case1.txt, ..., case3.txt) and checks if the output matches the expected outputs (answer1.txt, ..., answer3.txt).
