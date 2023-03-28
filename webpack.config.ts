@@ -2,7 +2,7 @@ import path from 'path';
 
 module.exports = {
   mode: 'production',
-  entry: './src/main.ts',
+  entry: './src/entry.ts',
   target: 'node',
   output: {
     path: path.resolve(__dirname, 'build'),
