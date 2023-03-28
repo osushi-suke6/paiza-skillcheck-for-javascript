@@ -3,12 +3,12 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "1": "ts-node ./src/main < ./test/case/case1.txt",
-    "2": "ts-node ./src/main < ./test/case/case2.txt",
-    "3": "ts-node ./src/main < ./test/case/case3.txt",
+    "1": "ts-node ./src/entry < ./test/case/case1.txt",
+    "2": "ts-node ./src/entry < ./test/case/case2.txt",
+    "3": "ts-node ./src/entry < ./test/case/case3.txt",
     "build": "webpack",
     "watch": "webpack -w",
-    "test": "mocha test/",
+    "test": "ts-mocha test/**/*",
     "new": "cp ./src/main.template.ts ./src/main.ts && rm ./test/case/case1.txt && touch ./test/case/case1.txt && rm ./test/case/case2.txt && touch ./test/case/case2.txt && rm ./test/case/case3.txt && touch ./test/case/case3.txt && rm ./test/answer/answer1.txt && touch ./test/answer/answer1.txt && rm ./test/answer/answer2.txt && touch ./test/answer/answer2.txt && rm ./test/answer/answer3.txt && touch ./test/answer/answer3.txt"
   },
   "dependencies": {
@@ -17,6 +17,7 @@
   "devDependencies": {
     "@types/webpack": "^5.28.0",
     "ts-loader": "^9.4.2",
+    "ts-mocha": "^10.0.0",
     "ts-node": "^10.9.1",
     "typescript": "^5.0.2",
     "webpack": "^5.76.3",
